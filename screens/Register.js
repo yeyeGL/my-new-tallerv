@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import styles from '../components/styles';
 
 const departments = [
@@ -7,6 +8,7 @@ const departments = [
 ];
 
 const Register = () => {
+    const navigation = useNavigation();  
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,7 +18,6 @@ const Register = () => {
     const [department, setDepartment] = useState('');
 
     const handleRegister = () => {
-        
         if (!username || !email || !password || !birthdate || !address || !country || !department) {
             Alert.alert('Error', 'Todos los campos deben ser rellenados');
             return;
@@ -69,7 +70,10 @@ const Register = () => {
             Alert.alert('Error', 'El departamento seleccionado no es valido');
             return;
         }
+        
         Alert.alert('Registro', `Usuario: ${username}\nCorreo: ${email}\nContraseña: ${password}\nFecha de nacimiento: ${birthdate}\nDireccion: ${address}\nPais: ${country}\nDepartamento: ${department}`);
+
+        navigation.navigate('Home');
     };
 
     return (

@@ -6,6 +6,6 @@ Para iniciar expo  y poder conectarse  npm start
 
 Dependecias para utulizar la navegacion:
 
-# npm install @react-navigation/native --legacy-peer-deps   
-# npm install @react-navigation/native-stack --legacy-peer-deps
-# npm install react-native-screens react-native-safe-area-context --legacy-peer-deps 
+- npm install @react-navigation/native --legacy-peer-deps   
+- npm install @react-navigation/native-stack --legacy-peer-deps
+- npm install react-native-screens react-native-safe-area-context --legacy-peer-deps 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import styles from '../components/styles';
+import styles from '../components/stylesRegister';
 
 const departments = [
     'Antioquia', 'Bolivar', 'Boyaca', 'Cundinamarca', 'Santander'
@@ -39,7 +39,7 @@ const Register = () => {
         }
 
         if (!email.includes('@')) {
-            Alert.alert('Error', 'El correo electrónico debe contener un @ valido');
+            Alert.alert('Error', 'El correo debe tener un @ para que se valido por el sistema');
             return;
         }
 

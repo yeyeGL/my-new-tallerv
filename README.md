@@ -1,8 +1,9 @@
 Al clonar el repositorio 
-Usamos el comando 
-1: npm install -g expo-cli 
-2: npm install expo --legacy-peer-deps
-Para iniciar expo  y poder conectarse  npm start
+Usamos el comando :
+- npm install -g expo-cli 
+- npm install expo --legacy-peer-deps
+Para iniciar expo  y poder conectarse:
+-npm start
 
 Dependecias para utulizar la navegacion:
 

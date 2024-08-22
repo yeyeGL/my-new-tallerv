@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../components/stylesRegister';
 
@@ -16,6 +16,8 @@ const Register = () => {
     const [address, setAddress] = useState('');
     const [country, setCountry] = useState('');
     const [department, setDepartment] = useState('');
+    const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+    const [showDepartmentDropdown, setShowDepartmentDropdown] = useState(false);
 
     const handleRegister = () => {
         if (!username || !email || !password || !birthdate || !address || !country || !department) {
@@ -73,7 +75,7 @@ const Register = () => {
         
         Alert.alert('Registro', `Usuario: ${username}\nCorreo: ${email}\nContraseña: ${password}\nFecha de nacimiento: ${birthdate}\nDireccion: ${address}\nPais: ${country}\nDepartamento: ${department}`);
 
-        navigation.navigate('Home');
+        navigation.navigate('Login');
     };
 
     return (
@@ -116,18 +118,40 @@ const Register = () => {
                 onChangeText={setAddress}
                 maxLength={30}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Pais (solo 'Colombia')"
-                value={country}
-                onChangeText={setCountry}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Departamento"
-                value={department}
-                onChangeText={setDepartment}
-            />
+
+            <TouchableOpacity onPress={() => setShowCountryDropdown(!showCountryDropdown)}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Pais (solo 'Colombia')"
+                    value={country}
+                    editable={false}
+                />
+            </TouchableOpacity>
+            {showCountryDropdown && (
+                <View style={styles.dropdown}>
+                    <TouchableOpacity onPress={() => { setCountry('Colombia'); setShowCountryDropdown(false); }}>
+                        <Text style={styles.dropdownItem}>Colombia</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+
+            <TouchableOpacity onPress={() => setShowDepartmentDropdown(!showDepartmentDropdown)}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Departamento"
+                    value={department}
+                    editable={false}
+                />
+            </TouchableOpacity>
+            {showDepartmentDropdown && (
+                <View style={styles.dropdown}>
+                    {departments.map((dept, index) => (
+                        <TouchableOpacity key={index} onPress={() => { setDepartment(dept); setShowDepartmentDropdown(false); }}>
+                            <Text style={styles.dropdownItem}>{dept}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            )}
             
             <Button title="Registrar" onPress={handleRegister} />
         </View>

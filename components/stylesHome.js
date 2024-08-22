@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
   },
   menuButton: {
     marginTop: 20,
+    left: 180,
+    top: -8,
   },
   menuContainer: {
     flex: 1,
@@ -56,6 +58,61 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+  },
+  productCard: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  productImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  productDetails: {
+    marginLeft: 10,
+    justifyContent: 'center',
+  },
+  productName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  productPrice: {
+    fontSize: 14,
+    color: 'green',
+    marginVertical: 5,
+  },
+  productDescription: {
+    fontSize: 12,
+    color: '#777',
+  },
+  favoritesButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 4,
+  },
+  cartButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 4,
+  },
+  buttonText: {
+    marginLeft: 1,
+    fontSize: 14,
+  },
+  buttonRow: {
+    flexDirection: 'row',
   },
 });
 

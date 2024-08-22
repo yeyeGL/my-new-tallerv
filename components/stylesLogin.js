@@ -1,49 +1,63 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#f5f5f5',
-      paddingHorizontal: 20,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-      textAlign: 'center',
-      color: '#333',
-    },
-    text:{
-      fontSize: 16,
-      color: '#333',
-      fontWeight: 'bold',
-      textAlign: 'start',
-      paddingBottom: 10,
-    },
-    input: {
-      height: 50,
-      borderColor: '#ddd',
-      borderWidth: 1,
-      borderRadius: 8,
-      marginBottom: 15,
-      paddingLeft: 10,
-      backgroundColor: '#fff',
-      fontSize: 16,
+  container: {
+    flex: 1,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    backgroundColor: '#fff', 
+    padding: 20, 
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center', 
+  },
+  text: {
+    fontSize: 18,
+    color: '#333',
+    marginBottom: 10,
+    textAlign: 'center', 
+  },
+  input: {
+    width: '80%', 
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 15,
+    fontSize: 16,
+    backgroundColor: '#f9f9f9',
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%', 
+    marginBottom: 15,
+  },
+  showPasswordButton: {
+    marginLeft: 15,
+    top:-7,
+  },
+  showPasswordButtonText: {
+    color: '#007BFF',
+    fontSize: 16,
   },
   button: {
-    backgroundColor: '#007bff',
+    width: '80%', 
+    padding: 15,
+    backgroundColor: '#6200EE',
     borderRadius: 8,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
     alignItems: 'center',
-    marginTop: 20,
-    marginHorizontal: 60,
-},
+    marginBottom: 10,
+  },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-},
+  },
 });
 
 export default styles;

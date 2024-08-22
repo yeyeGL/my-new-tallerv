@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput,   TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styles from '../components/stylesLogin';
 
 const Login = ({ navigation }) => {
@@ -17,8 +17,8 @@ const Login = ({ navigation }) => {
       Alert.alert('Error', 'La contraseña debe incluir al menos una letra mayúscula, un carácter especial, letras y números.');
       return;
     }
-    // Aquí iría la lógica para iniciar sesión
-    Alert.alert('Inicio de sesión', 'Sesión iniciada correctamente.');
+    
+    navigation.navigate('Home'); 
   };
 
   const handleRegister = () => {

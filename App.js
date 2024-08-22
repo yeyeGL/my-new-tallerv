@@ -12,6 +12,7 @@ import Offers from './screens/Offers';
 import Favorites from './screens/Favorites';
 import Purchases from './screens/Purchases';
 import PaymentBranch from './screens/PaymentBranch';
+import UserProfile from './screens/UserProfile';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,7 +32,7 @@ export default function App() {
         <Stack.Screen name="Favorites" component={Favorites} />
         <Stack.Screen name="Purchases" component={Purchases} />
         <Stack.Screen name="PaymentBranch" component={PaymentBranch} />
-
+        <Stack.Screen name="UserProfile" component={UserProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

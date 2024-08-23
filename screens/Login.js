@@ -12,12 +12,18 @@ const Login = ({ navigation }) => {
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[0-9]).{1,8}$/;
     return regex.test(password);
   };
-
+  const validateUsername = (username) => {
+    return username && username.trim().length > 0;
+};
   const handleLogin = () => {
     if (!validatePassword(password)) {
       Alert.alert('Error', 'La contraseña debe incluir al menos una letra mayúscula, un carácter especial, letras y números.');
       return;
     }
+    if (!validateUsername(username)) {
+      Alert.alert('Error', 'El nombre de usuario no puede estar vacío.');
+      return;
+  }
     
     navigation.navigate('Home'); 
   };

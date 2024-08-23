@@ -9,6 +9,7 @@ import ShoppingCart from './screens/ShoppingCart';
 import ProductDetail from './screens/ProductDetail';
 import ProductOptions from './screens/ProductOptions';
 import Offers from './screens/Offers';
+import Categories from './screens/Categories';
 import Favorites from './screens/Favorites';
 import Purchases from './screens/Purchases';
 import PaymentBranch from './screens/PaymentBranch';
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen name="ShoppingCart" component={ShoppingCart} />
         <Stack.Screen name="ProductDetail" component={ProductDetail} />
         <Stack.Screen name="ProductOptions" component={ProductOptions} />
+        <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Offers" component={Offers} />
         <Stack.Screen name="Favorites" component={Favorites} />
         <Stack.Screen name="Purchases" component={Purchases} />

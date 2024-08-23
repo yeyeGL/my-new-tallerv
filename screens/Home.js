@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Modal, FlatList, Image, Alert } from 'react-native';
+import { View, Text, Pressable, TextInput, Modal, FlatList, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../components/stylesHome';
@@ -8,6 +8,7 @@ const Home = () => {
   const navigation = useNavigation();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [cart, setCart] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   const toggleMenu = () => setMenuVisible(!isMenuVisible);
 
@@ -165,30 +166,30 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.accountSection}>
-        <TouchableOpacity onPress={() => navigation.navigate('UserProfile')}>
+        <Pressable onPress={() => navigation.navigate('UserProfile')}>
           <Ionicons name="person-circle" size={40} color="black" />
-        </TouchableOpacity>
+        </Pressable>
         <Text style={styles.accountText}>Mi Cuenta</Text>
-        <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+        <Pressable style={styles.menuButton} onPress={toggleMenu}>
           <Ionicons name="menu" size={30} color="black" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
-      <TouchableOpacity style={styles.searchBar} onPress={() => navigation.navigate('SearchScreen')}>
+      <Pressable style={styles.searchBar} onPress={() => navigation.navigate('SearchScreen')}>
         <Ionicons name="search" size={20} color="gray" />
         <TextInput placeholder="Buscar productos..." style={styles.searchInput} />
-      </TouchableOpacity>
+      </Pressable>
 
       <View style={styles.iconRow}>
-        <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
+        <Pressable onPress={() => navigation.navigate('Favorites')}>
           <Ionicons name="heart" size={30} color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ShoppingCart', { cart })}>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('ShoppingCart', { cart })}>
           <Ionicons name="cart" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', { products })}>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('ProductDetail', { products })}>
           <Ionicons name="information-circle" size={30} color="blue" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <FlatList
@@ -202,14 +203,14 @@ const Home = () => {
               <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
               <Text style={styles.productDescription}>{item.description}</Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.favoritesButton} onPress={() => handleAddToFavorites(item)}>
+                <Pressable style={styles.favoritesButton} onPress={() => handleAddToFavorites(item)}>
                   <Ionicons name="heart" size={20} color="red" />
                   <Text style={styles.buttonText}>Favoritos</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cartButton} onPress={() => handleAddToCart(item)}>
+                </Pressable>
+                <Pressable style={styles.cartButton} onPress={() => handleAddToCart(item)}>
                   <Ionicons name="cart" size={20} color="black" />
                   <Text style={styles.buttonText}>Carrito</Text>
-                </TouchableOpacity>
+                </Pressable>
               </View>
             </View>
           </View>
@@ -223,7 +224,7 @@ const Home = () => {
               data={menuItems}
               keyExtractor={(item) => item.name}
               renderItem={({ item }) => (
-                <TouchableOpacity
+                <Pressable
                   style={styles.menuItem}
                   onPress={() => {
                     navigation.navigate(item.screen);
@@ -231,7 +232,7 @@ const Home = () => {
                   }}
                 >
                   <Text style={styles.menuItemText}>{item.name}</Text>
-                </TouchableOpacity>
+                </Pressable>
               )}
             />
           </View>

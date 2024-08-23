@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, StyleSheet, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, Image, FlatList, Button } from 'react-native';
 import styles from '../components/stylesProductDetail';
 
 const ProductDetail = ({ route, navigation }) => {
- 
-
   const { products } = route.params;
 
   const handleProductSelect = (product) => {
@@ -15,20 +13,23 @@ const ProductDetail = ({ route, navigation }) => {
     <View style={styles.container}>
       <FlatList
         data={products}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleProductSelect(item)}>
-            <View style={styles.productCard}>
-              <Image source={item.image} style={styles.productImage} />
-              <Text style={styles.productName}>{item.name}</Text>
+          <View style={styles.productCard}>
+            <Image source={item.image} style={styles.productImage} />
+            <Text style={styles.productName}>{item.name}</Text>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Ver detalles"
+                onPress={() => handleProductSelect(item)}
+                color="#6200EE"
+              />
             </View>
-          </TouchableOpacity>
+          </View>
         )}
       />
     </View>
   );
 };
-
-
 
 export default ProductDetail;

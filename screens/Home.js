@@ -25,6 +25,7 @@ const products = [
     id: '3',
     name: 'Iphone 15',
     price: 3000.0,
+    discountedPrice: 3000.0 * 0.9,
     description: 'Descubre la nueva generación del iPhone con su diseño elegante y potente tecnología.',
     image: require('../assets/ProductosCelucos/iphone15.png'),
     categoria: 'Celulares',
@@ -41,6 +42,7 @@ const products = [
     id: '5',
     name: 'Computador Gaming',
     price: 5000.0,
+    discountedPrice: 5000.0 * 0.65,
     description: 'Máquina de alto rendimiento para los gamers más exigentes, con gráficos y velocidad excepcionales.',
     image: require('../assets/ProductosComp/compugaming.png'),
     categoria: 'Computadores',
@@ -57,6 +59,7 @@ const products = [
     id: '7',
     name: 'Balón de Baloncesto',
     price: 120.0,
+    discountedPrice: 120.0 * 0.8,
     description: 'Balón oficial de baloncesto, perfecto para competiciones y entrenamientos.',
     image: require('../assets/ProductosDeportes/balon-baloncesto-oficial.png'),
     categoria: 'Deportes',
@@ -73,6 +76,7 @@ const products = [
     id: '9',
     name: 'Camisa de la Cabra',
     price: 9000.0,
+    discountedPrice: 9000.0 * 0.4,
     description: 'Edición limitada de la camisa inspirada en el icónico "GOAT" del deporte.',
     image: require('../assets/ProductosDeportes/camisathegoat.png'),
     categoria: 'Deportes',
@@ -81,6 +85,7 @@ const products = [
     id: '10',
     name: 'Cama',
     price: 2100.0,
+    discountedPrice: 2100.0 * 0.8,
     description: 'Cama cómoda y moderna para un descanso placentero.',
     image: require('../assets/ProductosHogar/cama.png'),
     categoria: 'AccesoriosDeCasa',
@@ -97,6 +102,7 @@ const products = [
     id: '12',
     name: 'Lámpara de Noche',
     price: 600.0,
+    discountedPrice: 600.0 * 0.95,
     description: 'Lámpara de mesa con un diseño moderno, ideal para iluminar cualquier espacio.',
     image: require('../assets/ProductosHogar/lampara-de-mesa.png'),
     categoria: 'AccesoriosDeCasa',
@@ -105,8 +111,7 @@ const products = [
     id: '13',
     name: 'Play 5',
     price: 2600.0,
-    description:
-      'La consola de videojuegos más avanzada de Sony, con gráficos impresionantes y un rendimiento superior.',
+    description: 'La consola de videojuegos más avanzada de Sony, con gráficos impresionantes y un rendimiento superior.',
     image: require('../assets/ProductosConsolas/play-5.png'),
     categoria: 'Games',
   },
@@ -114,6 +119,7 @@ const products = [
     id: '14',
     name: 'Play 2',
     price: 400.0,
+    discountedPrice: 400.0 * 0.5, 
     description: 'Consola retro de Sony, perfecta para los amantes de los juegos clásicos.',
     image: require('../assets/ProductosConsolas/play-2.png'),
     categoria: 'Games',
@@ -122,17 +128,19 @@ const products = [
     id: '15',
     name: 'Xbox 360',
     price: 550.0,
+    discountedPrice: 550.0 * 0.75, 
     description: 'La clásica consola de Microsoft, conocida por su catálogo de juegos y rendimiento.',
     image: require('../assets/ProductosConsolas/xbox-360.png'),
     categoria: 'Games',
   },
 ];
-export { products }; 
+
+export { products };
 const Home = () => {
   const navigation = useNavigation();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [cart, setCart] = useState([]);
-  const [favorites, setFavorites] = useState([]); // Estado para favoritos
+  const [favorites, setFavorites] = useState([]); 
   const [searchText, setSearchText] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -145,7 +153,7 @@ const Home = () => {
     { name: 'Sucursal de pago', screen: 'PaymentBranch' },
     { name: 'Ayuda y Soporte', screen: 'HelpSupport' },
   ];
-  
+
   useEffect(() => {
     if (searchText.trim() === '') {
       setFilteredProducts(products);
@@ -156,12 +164,20 @@ const Home = () => {
   }, [searchText]);
 
   const handleAddToCart = (product) => {
+    const priceToUse = product.discountedPrice ? product.discountedPrice : product.price;
+
     const productExists = cart.find((item) => item.id === product.id);
+
     if (productExists) {
-      setCart(cart.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item)));
+      setCart(
+        cart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1, price: priceToUse } : item,
+        ),
+      );
     } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
+      setCart([...cart, { ...product, price: priceToUse, quantity: 1 }]);
     }
+
     Alert.alert('Carrito', `Has agregado ${product.name} a tu carrito.`);
   };
 
@@ -216,7 +232,16 @@ const Home = () => {
             <Image source={item.image} style={styles.productImage} />
             <View style={styles.productDetails}>
               <Text style={styles.productName}>{item.name}</Text>
-              <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+              <View style={styles.priceContainer}>
+                {item.discountedPrice ? (
+                  <>
+                    <Text style={styles.strikethroughPrice}>${item.price.toFixed(2)}</Text>
+                    <Text style={styles.discountedPrice}>${item.discountedPrice.toFixed(2)}</Text>
+                  </>
+                ) : (
+                  <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+                )}
+              </View>
               <Text style={styles.productDescription}>{item.description}</Text>
               <View style={styles.buttonRow}>
                 <Pressable style={styles.favoritesButton} onPress={() => handleAddToFavorites(item)}>
@@ -258,5 +283,4 @@ const Home = () => {
   );
 };
 
-// Exportar products al final del archivo
 export default Home;

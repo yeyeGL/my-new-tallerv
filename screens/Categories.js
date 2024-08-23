@@ -37,7 +37,10 @@ const Categories = () => {
           <Text style={styles.categoryTitle}>{selectedCategory.name}</Text>
           <View style={styles.itemContainer}>
             {selectedCategory.products.map((product) => (
-              <TouchableOpacity key={product.id} onPress={() => navigation.navigate('ProductDetail', { product })}>
+              <TouchableOpacity
+                key={product.id}
+                onPress={() => navigation.navigate('ProductOptions', { product })}
+              >
                 <View style={styles.item}>
                   <Image source={product.image} style={styles.categoryImage} />
                   <Text style={styles.text}>{product.name}</Text>

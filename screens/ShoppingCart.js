@@ -65,9 +65,10 @@ const ShoppingCart = ({ route, navigation }) => {
               <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
               <Text style={styles.productDescription}>{item.description}</Text>
               <View style={styles.quantityContainer}>
-                <Button title="-" onPress={() => handleQuantityChange(item.id, -1)} />
+                <Button title="-" onPress={() => handleQuantityChange(item.id, -1)} color={"#6200EE"} />
                 <Text style={styles.quantityText}>{item.quantity}</Text>
-                <Button title="+" onPress={() => handleQuantityChange(item.id, 1)} />
+                <Button title="+" onPress={() => handleQuantityChange(item.id, 1)} color={"#6200EE"} />
+                  <Text>  </Text>
                 <Button title="Eliminar" onPress={() => handleRemoveItem(item.id)} color="red" />
               </View>
             </View>

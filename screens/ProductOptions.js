@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, FlatList, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../components/stylesOptions';
 
 const ProductOptions = ({ route }) => {
-  const [comment, setComment] = useState(''); 
+  const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [rating, setRating] = useState(null);
 
-  const { product } = route.params; 
+  const { product } = route.params;
 
   const handleAddComment = () => {
     if (!rating) {
-      Alert.alert('Error', 'Debes seleccionar una calificacion');
+      Alert.alert('Error', 'Debes seleccionar una calificación');
       return;
     }
     if (rating < 1 || rating > 5) {
-      Alert.alert('Error', 'La calificacion debe ser entre 1 y 5');
+      Alert.alert('Error', 'La calificación debe ser entre 1 y 5');
       return;
     }
     setComments([...comments, { rating, comment }]);
     Alert.alert('Comentario agregado', 'Tu comentario ha sido agregado');
-    setComment(''); 
+    setComment('');
     setRating(null);
   };
 
@@ -43,14 +43,16 @@ const ProductOptions = ({ route }) => {
       />
       <View style={styles.ratingContainer}>
         {[1, 2, 3, 4, 5].map((star) => (
-          <TouchableOpacity key={star} onPress={() => setRating(star)}>
-            <Ionicons name={star <= rating ? "star" : "star-outline"} size={30} color="gold" />
-          </TouchableOpacity>
+          <Ionicons
+            key={star}
+            name={star <= rating ? 'star' : 'star-outline'}
+            size={30}
+            color="gold"
+            onPress={() => setRating(star)}
+          />
         ))}
       </View>
-      <TouchableOpacity onPress={handleAddComment} style={styles.button}>
-        <Text style={styles.buttonText}>Agregar comentario</Text>
-      </TouchableOpacity>
+      <Button title="Agregar comentario" onPress={handleAddComment} color="#6200EE" />
 
       <FlatList
         data={comments}

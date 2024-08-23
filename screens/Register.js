@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../components/stylesRegister';
 
@@ -14,37 +14,10 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [birthdate, setBirthdate] = useState('');
     const [address, setAddress] = useState('');
-    const [country, setCountry] = useState('');
     const [department, setDepartment] = useState('');
-    const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-    const [showDepartmentDropdown, setShowDepartmentDropdown] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
 
-    const handleRegister = () => {
-        if (!username || !email || !password || !birthdate || !address || !country || !department) {
-            Alert.alert('Error', 'Todos los campos deben ser rellenados');
-            return;
-        }
-
-        if (username.length > 10) {
-            Alert.alert('Error', 'El nombre de usuario debe tener un maximo de 10 caracteres');
-            return;
-        }
-
-        if (password.length > 8) {
-            Alert.alert('Error', 'La contraseña debe tener un maximo de 8 caracteres');
-            return;
-        }
-
-        if (!/(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}/.test(password)) {
-            Alert.alert('Error', 'La contraseña debe incluir al menos una mayuscula, un caracter especial, letras y numeros');
-            return;
-        }
-
-        if (!email.includes('@')) {
-            Alert.alert('Error', 'El correo debe tener un @ para que se valido por el sistema');
-            return;
-        }
-
+    const validateForm = () => {
         const today = new Date();
         const birthDate = new Date(birthdate);
         const age = today.getFullYear() - birthDate.getFullYear();
@@ -53,27 +26,25 @@ const Register = () => {
             age--;
         }
 
-        if (age < 18 || age > 50) {
-            Alert.alert('Error', 'La edad debe estar entre 18 y 50 años');
+        const isValid = {
+            username: username.length <= 10,
+            password: password.length <= 8 && /(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}/.test(password),
+            email: email.includes('@'),
+            age: age >= 18 && age <= 50,
+            address: address.length <= 30,
+            department: departments.includes(department)
+        };
+
+        return Object.values(isValid).every(Boolean);
+    };
+
+    const handleRegister = () => {
+        if (!validateForm()) {
+            Alert.alert('Error', 'Por favor revisa todos los campos');
             return;
         }
 
-        if (address.length > 30) {
-            Alert.alert('Error', 'La direccion debe tener un maximo de 30 caracteres');
-            return;
-        }
-
-        if (country !== 'Colombia') {
-            Alert.alert('Error', 'El pais solo puede ser Colombia');
-            return;
-        }
-
-        if (!departments.includes(department)) {
-            Alert.alert('Error', 'El departamento seleccionado no es valido');
-            return;
-        }
-        
-        Alert.alert('Registro', `Usuario: ${username}\nCorreo: ${email}\nContraseña: ${password}\nFecha de nacimiento: ${birthdate}\nDireccion: ${address}\nPais: ${country}\nDepartamento: ${department}`);
+        Alert.alert('Registro', `Usuario: ${username}\nCorreo: ${email}\nContraseña: ${password}\nFecha de nacimiento: ${birthdate}\nDireccion: ${address}\nPais: Colombia\nDepartamento: ${department}`);
 
         navigation.navigate('Login');
     };
@@ -81,7 +52,7 @@ const Register = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Registro de Usuarios</Text>
-            
+
             <TextInput
                 style={styles.input}
                 placeholder="Nombre de usuario (max 10 caracteres)"
@@ -119,41 +90,34 @@ const Register = () => {
                 maxLength={30}
             />
 
-            <TouchableOpacity onPress={() => setShowCountryDropdown(!showCountryDropdown)}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Pais (solo 'Colombia')"
-                    value={country}
-                    editable={false}
-                />
-            </TouchableOpacity>
-            {showCountryDropdown && (
-                <View style={styles.dropdown}>
-                    <TouchableOpacity onPress={() => { setCountry('Colombia'); setShowCountryDropdown(false); }}>
-                        <Text style={styles.dropdownItem}>Colombia</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+            <TextInput
+                style={styles.input}
+                placeholder="Pais (solo 'Colombia')"
+                value="Colombia"
+                editable={false}
+            />
 
-            <TouchableOpacity onPress={() => setShowDepartmentDropdown(!showDepartmentDropdown)}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Departamento"
-                    value={department}
-                    editable={false}
-                />
-            </TouchableOpacity>
-            {showDepartmentDropdown && (
+            <Pressable onPress={() => setShowDropdown(!showDropdown)}>
+                <View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Departamento"
+                        value={department}
+                        editable={false}
+                    />
+                </View>
+            </Pressable>
+            {showDropdown && (
                 <View style={styles.dropdown}>
                     {departments.map((dept, index) => (
-                        <TouchableOpacity key={index} onPress={() => { setDepartment(dept); setShowDepartmentDropdown(false); }}>
+                        <Pressable key={index} onPress={() => { setDepartment(dept); setShowDropdown(false); }}>
                             <Text style={styles.dropdownItem}>{dept}</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                     ))}
                 </View>
             )}
-            
-            <Button title="Registrar" onPress={handleRegister} />
+
+            <Button title="Registrar" onPress={handleRegister} color={"#6200EE"} />
         </View>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import styles from '../components/stylesLogin';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
   };
 
   const handleRegister = () => {
-    navigation.navigate('Register'); // Navegar al formulario de registro de usuario
+    navigation.navigate('Register');
   };
 
   return (
@@ -53,16 +53,19 @@ const Login = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.showPasswordButton}>
+        <View
+          style={styles.showPasswordButton}
+          onTouchEnd={() => setShowPassword(!showPassword)}
+        >
           <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="#000" />
-        </TouchableOpacity>
+        </View>
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <View style={styles.button} onTouchEnd={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+      </View>
+      <View style={styles.button} onTouchEnd={handleRegister}>
         <Text style={styles.buttonText}>Registrarse</Text>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 };

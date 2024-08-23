@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet, Alert, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, Button, FlatList, Image, Alert, TextInput } from 'react-native';
 import styles from '../components/stylesCart';
 
 const ShoppingCart = ({ route, navigation }) => {
@@ -32,16 +31,16 @@ const ShoppingCart = ({ route, navigation }) => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const Botoncomprar = () => {
+  const handleCheckout = () => {
     const total = calculateTotal();
     const payment = parseFloat(paymentAmount);
 
     if (isNaN(payment) || payment < total) {
       Alert.alert('Error', 'El monto ingresado no es suficiente para cubrir el total');
     } else {
-      Alert.alert('Exito', 'Pago realizado con exito. ¿Desea ver sus compras?', [
+      Alert.alert('Éxito', 'Pago realizado con éxito. ¿Desea ver sus compras?', [
         {
-          text: 'Si',
+          text: 'Sí',
           onPress: () => navigation.navigate('Purchases', { cartItems }),
         },
         {
@@ -66,16 +65,11 @@ const ShoppingCart = ({ route, navigation }) => {
               <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
               <Text style={styles.productDescription}>{item.description}</Text>
               <View style={styles.quantityContainer}>
-                <TouchableOpacity style={styles.quantityButton} onPress={() => handleQuantityChange(item.id, -1)}>
-                  <Ionicons name="remove" size={20} color="black" />
-                </TouchableOpacity>
+                <Button title="-" onPress={() => handleQuantityChange(item.id, -1)} color={"#6200EE"} />
                 <Text style={styles.quantityText}>{item.quantity}</Text>
-                <TouchableOpacity style={styles.quantityButton} onPress={() => handleQuantityChange(item.id, 1)}>
-                  <Ionicons name="add" size={20} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.removeButton} onPress={() => handleRemoveItem(item.id)}>
-                  <Ionicons name="trash" size={20} color="white" />
-                </TouchableOpacity>
+                <Button title="+" onPress={() => handleQuantityChange(item.id, 1)} color={"#6200EE"} />
+                  <Text>  </Text>
+                <Button title="Eliminar" onPress={() => handleRemoveItem(item.id)} color="red" />
               </View>
             </View>
           </View>
@@ -92,9 +86,7 @@ const ShoppingCart = ({ route, navigation }) => {
           value={paymentAmount}
           onChangeText={setPaymentAmount}
         />
-        <TouchableOpacity style={styles.checkoutButton} onPress={Botoncomprar}>
-          <Text style={styles.checkoutButtonText}>Proceder al Pago</Text>
-        </TouchableOpacity>
+        <Button title="Proceder al Pago" onPress={handleCheckout} color={"#6200EE"} />
       </View>
     </View>
   );

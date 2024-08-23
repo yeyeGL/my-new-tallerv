@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, Button,TouchableOpacity } from "react-native";
+import { View, Text, Image, Button } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../components/stylesUserProfile";
 
@@ -11,14 +11,17 @@ const UserProfile = () => {
       <Text style={styles.title}>Juan Perez</Text>
       <Text>29/05/2002</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Log Out</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.iconButton]}>
+        <Button
+          title="Log Out"
+          onPress={() => {}}
+          color="#6200EE"
+        />
+        <View style={styles.iconButton}>
           <Icon name="cog" size={20} color="#fff" />
-        </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
+
 export default UserProfile;

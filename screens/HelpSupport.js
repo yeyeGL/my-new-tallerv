@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
 import styles from '../components/stylesHelpSupport';
+
 const HelpSupport = () => {
   const [requestType, setRequestType] = useState('');
   const [description, setDescription] = useState('');
 
   const handleSubmit = () => {
     Alert.alert('Solicitud Enviada', 'Gracias por tu mensaje. Te responderemos pronto');
-
     setRequestType('');
     setDescription('');
   };
@@ -18,39 +18,34 @@ const HelpSupport = () => {
 
       <Text style={styles.label}>Tipo de Solicitud:</Text>
       <View style={styles.requestTypeContainer}>
-        <TouchableOpacity
-          style={[styles.requestTypeButton, requestType === 'Queja' && styles.selectedButton]}
+        <Button
+          title="Queja"
           onPress={() => setRequestType('Queja')}
-        >
-          <Text style={styles.buttonText}>Queja</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.requestTypeButton, requestType === 'Peticion' && styles.selectedButton]}
+          color={requestType === 'Queja' ? '#6200EE' : '#ccc'}
+        />
+        <Button
+          title="Peticion"
           onPress={() => setRequestType('Peticion')}
-        >
-          <Text style={styles.buttonText}>Peticion</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.requestTypeButton, requestType === 'Recurso' && styles.selectedButton]}
+          color={requestType === 'Peticion' ? '#6200EE' : '#ccc'}
+        />
+        <Button
+          title="Recurso"
           onPress={() => setRequestType('Recurso')}
-        >
-          <Text style={styles.buttonText}>Recurso</Text>
-        </TouchableOpacity>
+          color={requestType === 'Recurso' ? '#6200EE' : '#ccc'}
+        />
       </View>
 
-      <Text style={styles.label}>Descripcion del Problema:</Text>
+      <Text style={styles.label}>Descripción del Problema:</Text>
       <TextInput
         style={styles.textInput}
         multiline
         numberOfLines={4}
         value={description}
         onChangeText={setDescription}
-        placeholder="Describe tu problema aqui..."
+        placeholder="Describe tu problema aquí..."
       />
 
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Enviar</Text>
-      </TouchableOpacity>
+      <Button title="Enviar" onPress={handleSubmit} color="#6200EE" />
     </View>
   );
 };

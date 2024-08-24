@@ -127,6 +127,11 @@ const styles = StyleSheet.create({
     color: 'red',
     fontWeight: 'bold',
   },
+  closeButton: {
+    alignSelf: 'flex-end',
+    margin: 10,
+    marginTop:-50,
+  },
 });
 
 export default styles;

@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../components/stylesHome';
 
+export { products };
+
 const products = [
   {
     id: '1',
@@ -145,71 +147,63 @@ const products = [
   },
 ];
 
-export { products };
 const Home = () => {
   const navigation = useNavigation();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [cart, setCart] = useState([]);
-  const [favorites, setFavorites] = useState([]); 
+  const [favorites, setFavorites] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const toggleMenu = () => setMenuVisible(!isMenuVisible);
 
   const menuItems = [
     { name: 'Ofertas', screen: 'Offers' },
     { name: 'Categorías de artículos', screen: 'Categories' },
-    { name: 'Lista de artículos', screen: 'ListProducts' },
     { name: 'Sucursal de pago', screen: 'PaymentBranch' },
     { name: 'Ayuda y Soporte', screen: 'HelpSupport' },
   ];
 
-  useEffect(() => {
-    if (searchText.trim() === '') {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
-      setFilteredProducts(filtered);
-    }
-  }, [searchText]);
+  const filteredProducts = searchText.trim()
+    ? products.filter((product) =>
+        product.name.toLowerCase().includes(searchText.toLowerCase())
+      )
+    : products;
 
   const handleAddToCart = (product) => {
-    const priceToUse = product.discountedPrice ? product.discountedPrice : product.price;
+    const priceToUse = product.discountedPrice || product.price;
+    const updatedCart = cart.map((item) =>
+      item.id === product.id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
 
-    const productExists = cart.find((item) => item.id === product.id);
-
-    if (productExists) {
-      setCart(
-        cart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1, price: priceToUse } : item,
-        ),
-      );
-    } else {
-      setCart([...cart, { ...product, price: priceToUse, quantity: 1 }]);
+    if (!cart.some((item) => item.id === product.id)) {
+      updatedCart.push({ ...product, price: priceToUse, quantity: 1 });
     }
 
+    setCart(updatedCart);
     Alert.alert('Carrito', `Has agregado ${product.name} a tu carrito.`);
   };
 
   const handleAddToFavorites = (product) => {
-    const productExists = favorites.find((item) => item.id === product.id);
-    if (!productExists) {
+    if (!favorites.some((item) => item.id === product.id)) {
       setFavorites([...favorites, product]);
       Alert.alert('Favoritos', `Has agregado ${product.name} a tus favoritos.`);
     } else {
-      Alert.alert('Favoritos', `El producto ${product.name} ya está en tus favoritos.`);
+      Alert.alert('Favoritos', `${product.name} ya está en tus favoritos.`);
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.accountSection}>
-        <TouchableOpacity onPress={() => navigation.navigate('UserProfile')}>
+        <Pressable onPress={() => navigation.navigate('UserProfile')}>
           <Ionicons name="person-circle" size={40} color="black" />
-        </TouchableOpacity>
+        </Pressable>
         <Text style={styles.accountText}>Mi Cuenta</Text>
-        <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+        <Pressable style={styles.menuButton} onPress={toggleMenu}>
           <Ionicons name="menu" size={30} color="black" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <View style={styles.searchBar}>
@@ -223,15 +217,15 @@ const Home = () => {
       </View>
 
       <View style={styles.iconRow}>
-        <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
+        <Pressable onPress={() => navigation.navigate('Favorites')}>
           <Ionicons name="heart" size={30} color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ShoppingCart', { cart })}>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('ShoppingCart', { cart })}>
           <Ionicons name="cart" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', { products })}>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('ProductDetail', { products })}>
           <Ionicons name="information-circle" size={30} color="blue" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <FlatList
@@ -268,14 +262,17 @@ const Home = () => {
         )}
       />
 
-      <Modal visible={isMenuVisible} transparent={true} animationType="slide" onRequestClose={toggleMenu}>
+      <Modal visible={isMenuVisible} transparent={true} animationType="slide">
         <View style={styles.menuContainer}>
           <View style={styles.menuContent}>
+            <Pressable style={styles.closeButton} onPress={toggleMenu}>
+              <Ionicons name="close" size={30} color="black" />
+            </Pressable>
             <FlatList
               data={menuItems}
               keyExtractor={(item) => item.name}
               renderItem={({ item }) => (
-                <TouchableOpacity
+                <Pressable
                   style={styles.menuItem}
                   onPress={() => {
                     navigation.navigate(item.screen);
@@ -283,7 +280,7 @@ const Home = () => {
                   }}
                 >
                   <Text style={styles.menuItemText}>{item.name}</Text>
-                </TouchableOpacity>
+                </Pressable>
               )}
             />
           </View>

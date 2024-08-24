@@ -28,7 +28,10 @@ const ShoppingCart = ({ route, navigation }) => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartItems.reduce((total, item) => {
+      const priceToUse = item.discountedPrice ? item.discountedPrice : item.price;
+      return total + priceToUse * item.quantity;
+    }, 0);
   };
 
   const handleCheckout = () => {
@@ -62,13 +65,15 @@ const ShoppingCart = ({ route, navigation }) => {
             <Image source={item.image} style={styles.productImage} />
             <View style={styles.productDetails}>
               <Text style={styles.productName}>{item.name}</Text>
-              <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+              <Text style={styles.productPrice}>
+                ${item.discountedPrice ? item.discountedPrice.toFixed(2) : item.price.toFixed(2)}
+              </Text>
               <Text style={styles.productDescription}>{item.description}</Text>
               <View style={styles.quantityContainer}>
                 <Button title="-" onPress={() => handleQuantityChange(item.id, -1)} color={"#6200EE"} />
                 <Text style={styles.quantityText}>{item.quantity}</Text>
                 <Button title="+" onPress={() => handleQuantityChange(item.id, 1)} color={"#6200EE"} />
-                  <Text>  </Text>
+                <Text>  </Text>
                 <Button title="Eliminar" onPress={() => handleRemoveItem(item.id)} color="red" />
               </View>
             </View>

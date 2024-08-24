@@ -114,6 +114,19 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
   },
+  priceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  strikethroughPrice: {
+    textDecorationLine: 'line-through',
+    color: 'gray',
+    marginRight: 8,
+  },
+  discountedPrice: {
+    color: 'red',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

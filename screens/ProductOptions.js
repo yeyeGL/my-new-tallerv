@@ -16,7 +16,7 @@ const ProductOptions = ({ route }) => {
       return;
     }
     if (rating < 1 || rating > 5) {
-      Alert.alert('Error', 'La calificación debe ser entre 1 y 5');
+      Alert.alert('Error', 'La calificacin debe ser entre 1 y 5');
       return;
     }
     setComments([...comments, { rating, comment }]);

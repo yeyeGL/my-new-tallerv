@@ -6,7 +6,7 @@ import styles from "../components/stylesUserProfile";
 const UserProfile = () => {
   return (
     <View style={styles.container}>
-      <Image style={styles.imageContainer} source={require('../assets/favicon.png')} />
+      <Image style={styles.imageContainer} source={require('../assets/Avatar.png')} />
       <Text style={styles.text}>Welcome!!</Text>
       <Text style={styles.title}>Juan Perez</Text>
       <Text>29/05/2002</Text>

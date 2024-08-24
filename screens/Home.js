@@ -12,6 +12,7 @@ const products = [
     description: 'Protege tu Galaxy Ultra con estilo y seguridad con este estuche premium.',
     image: require('../assets/ProductosCelucos/Estuchegalaxy.png'),
     categoria: 'Celulares',
+    favorite: true,
   },
   {
     id: '2',
@@ -20,6 +21,8 @@ const products = [
     description: 'El smartphone más avanzado de Samsung, con cámara de alta resolución y rendimiento ultra rápido.',
     image: require('../assets/ProductosCelucos/galaxy23ultra.png'),
     categoria: 'Celulares',
+    favorite: false,
+    
   },
   {
     id: '3',
@@ -28,6 +31,8 @@ const products = [
     description: 'Descubre la nueva generación del iPhone con su diseño elegante y potente tecnología.',
     image: require('../assets/ProductosCelucos/iphone15.png'),
     categoria: 'Celulares',
+    favorite: true,
+    available: true,
   },
   {
     id: '4',
@@ -36,6 +41,8 @@ const products = [
     description: 'Laptop compacta y eficiente, ideal para el trabajo y el entretenimiento diario.',
     image: require('../assets/ProductosComp/asus14.png'),
     categoria: 'Computadores',
+    favorite: true,
+    available: true,
   },
   {
     id: '5',
@@ -44,6 +51,7 @@ const products = [
     description: 'Máquina de alto rendimiento para los gamers más exigentes, con gráficos y velocidad excepcionales.',
     image: require('../assets/ProductosComp/compugaming.png'),
     categoria: 'Computadores',
+    favorite: true,
   },
   {
     id: '6',
@@ -60,6 +68,8 @@ const products = [
     description: 'Balón oficial de baloncesto, perfecto para competiciones y entrenamientos.',
     image: require('../assets/ProductosDeportes/balon-baloncesto-oficial.png'),
     categoria: 'Deportes',
+    favorite: true,
+    available: true,
   },
   {
     id: '8',

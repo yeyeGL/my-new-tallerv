@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button, FlatList, Image, Alert, TextInput } from 'react-native';
-import styles from '../components/stylesCart';
+import styles from './stylesCart';
 
 const ShoppingCart = ({ route, navigation }) => {
   const { cart } = route.params;
@@ -41,14 +41,14 @@ const ShoppingCart = ({ route, navigation }) => {
     if (isNaN(payment) || payment < total) {
       Alert.alert('Error', 'El monto ingresado no es suficiente para cubrir el total');
     } else {
-      Alert.alert('Éxito', 'Pago realizado con éxito. ¿Desea ver sus compras?', [
+      Alert.alert('Éxito', 'Pago realizado con exito. ¿Desea ver sus compras?', [
         {
-          text: 'Sí',
+          text: 'Si',
           onPress: () => navigation.navigate('Purchases', { cartItems }),
         },
         {
           text: 'No',
-          style: 'cancel',
+          style: 'cancelar',
         },
       ]);
     }

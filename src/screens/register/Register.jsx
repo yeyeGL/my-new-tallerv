@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Pressable } from 'react-native';
+import { View, Text, TextInput, Button, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import styles from '../components/stylesRegister';
-
-const departments = [
-    'Antioquia', 'Bolivar', 'Boyaca', 'Cundinamarca', 'Santander'
-];
+import styles from './stylesRegister';
+import {departments} from '../../constants/const';
 
 const Register = () => {
     const navigation = useNavigation();  

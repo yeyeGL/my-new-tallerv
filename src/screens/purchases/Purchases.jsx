@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
-import styles from '../components/stylesPurchases';
+import styles from './stylesPurchases';
 
 const Purchases = ({ route }) => {
   const { cartItems } = route.params || {}; 

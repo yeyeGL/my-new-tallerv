@@ -1,27 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, FlatList, Button, Alert } from 'react-native';
-import styles from '../components/stylesPaymentBranch';
+import styles from './stylesPaymentBranch';
+import { productsPaymentBranch } from '../../constants/const';
 
-const products = [
-  {
-    id: '1',
-    image: 'https://cdn-icons-png.flaticon.com/512/1312/1312307.png',
-    description: 'Producto 1 de alta calidad',
-    value: 1000,
-  },
-  {
-    id: '2',
-    image: 'https://cdn-icons-png.flaticon.com/512/1312/1312307.png',
-    description: 'Producto 2 de alta calidad',
-    value: 2000,
-  },
-  {
-    id: '3',
-    image: 'https://cdn-icons-png.flaticon.com/512/1312/1312307.png',
-    description: 'Producto 2 de alta calidad',
-    value: 2000,
-  },
-];
 
 const PaymentBranch = () => {
   const [quantities, setQuantities] = useState({});
@@ -43,7 +24,7 @@ const PaymentBranch = () => {
     }));
   };
 
-  const totalValue = products.reduce((sum, product) => {
+  const totalValue = productsPaymentBranch.reduce((sum, product) => {
     const quantity = quantities[product.id] || 0;
     return sum + product.value * quantity;
   }, 0);
@@ -63,12 +44,12 @@ const PaymentBranch = () => {
 
   const handlePayment = async () => {
     if (!address) {
-      Alert.alert('Error', 'Por favor, ingrese una dirección de entrega.');
+      Alert.alert('Error', 'Por favor, ingrese una direccion de entrega');
       return;
     }
 
     if (!paymentMethod) {
-      Alert.alert('Error', 'Por favor, seleccione una forma de pago.');
+      Alert.alert('Error', 'Por favor, seleccione una forma de pago');
       return;
     }
 
@@ -76,7 +57,7 @@ const PaymentBranch = () => {
       totalValue,
       address,
       paymentMethod,
-      items: products.map((product) => ({
+      items: productsPaymentBranch.map((product) => ({
         id: product.id,
         description: product.description,
         value: product.value,
@@ -98,7 +79,7 @@ const PaymentBranch = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={products}
+        data={productsPaymentBranch}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.productContainer}>

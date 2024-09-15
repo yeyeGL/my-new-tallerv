@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, Pressable, } from 'react-native';
-import styles from '../components/stylesFavorites';
-import { products } from './Home';
+import { View, Text, FlatList, Image, } from 'react-native';
+import styles from './stylesFavorites';
+import { products } from '../../constants/const';
 import { Ionicons } from '@expo/vector-icons';
 
 const Favorites = () => {
-  // Filtrar los productos favoritos
+
   const favoriteProducts = products.filter(product => product.favorite);
 
   return (

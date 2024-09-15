@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
-import styles from '../components/stylesHelpSupport';
+import styles from './stylesHelpSupport';
 
 const HelpSupport = () => {
   const [requestType, setRequestType] = useState('');
@@ -16,7 +16,7 @@ const HelpSupport = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Ayuda y Soporte</Text>
 
-      <Text style={styles.label}>Tipo de Solicitud:</Text>
+      <Text style={styles.label}>Tipo de Solicitud : </Text>
       <View style={styles.requestTypeContainer}>
         <Button
           title="Queja"
@@ -35,14 +35,14 @@ const HelpSupport = () => {
         />
       </View>
 
-      <Text style={styles.label}>Descripción del Problema:</Text>
+      <Text style={styles.label}>Descripcion del problema : </Text>
       <TextInput
         style={styles.textInput}
         multiline
         numberOfLines={4}
         value={description}
         onChangeText={setDescription}
-        placeholder="Describe tu problema aquí..."
+        placeholder="Describe la causa del problema aqui......."
       />
 
       <Button title="Enviar" onPress={handleSubmit} color="#6200EE" />

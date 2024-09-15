@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
-import styles from '../components/stylesLogin';
+import { View, Text, TextInput, Alert ,Pressable } from 'react-native';
+import styles from './stylesLogin';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
-const Login = ({ navigation }) => {
+const Login = () => {
+  
+  const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[0-9]).{1,8}$/;
-    return regex.test(password);
+    const validation = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[0-9]).{1,8}$/;
+    return validation.test(password);
   };
+
   const validateUsername = (username) => {
     return username && username.trim().length > 0;
-};
+  };
+
+
   const handleLogin = () => {
     if (!validatePassword(password)) {
-      Alert.alert('Error', 'La contraseña debe incluir al menos una letra mayúscula, un carácter especial, letras y números.');
+      Alert.alert('Error', 'La contraseña debe incluir por lo menos una mayuscula, un caracter especial, letras y que tenga numeros');
       return;
     }
     if (!validateUsername(username)) {
-      Alert.alert('Error', 'El nombre de usuario no puede estar vacío.');
+      Alert.alert('Error', 'El nombre de usuario debe ser completado');
       return;
   }
-    
     navigation.navigate('Home'); 
   };
 
@@ -34,8 +39,10 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+
       <Text style={styles.title}>Log In</Text>
       <Text style={styles.text}>User:</Text>
+
       <TextInput
         style={styles.input}
         placeholder="Nombre de usuario (max 10 caracteres)"
@@ -43,8 +50,10 @@ const Login = ({ navigation }) => {
         value={username}
         onChangeText={setUsername}
       />
+
       <Text style={styles.text}>Password:</Text>
       <View style={styles.passwordContainer}>
+
         <TextInput
           style={styles.input}
           placeholder="Password (max 8 caracteres)"
@@ -53,19 +62,24 @@ const Login = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
         />
+
         <View
           style={styles.showPasswordButton}
           onTouchEnd={() => setShowPassword(!showPassword)}
         >
           <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="#000" />
+
         </View>
       </View>
-      <View style={styles.button} onTouchEnd={handleLogin}>
+
+      <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
-      </View>
-      <View style={styles.button} onTouchEnd={handleRegister}>
+      </Pressable>
+
+      <Pressable style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Registrarse</Text>
-      </View>
+      </Pressable>
+
     </View>
   );
 };

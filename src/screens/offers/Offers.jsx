@@ -8,6 +8,7 @@ const Offers = () => {
   const navigation = useNavigation();
   const [discountedProducts, setDiscountedProducts] = useState([]);
 
+  // Otra implementacion del useefect
   useEffect(() => {
     const filteredProducts = products.filter(product => product.discountedPrice);
     setDiscountedProducts(filteredProducts);

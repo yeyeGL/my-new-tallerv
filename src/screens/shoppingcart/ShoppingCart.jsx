@@ -1,37 +1,36 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, Image, Alert, TextInput } from 'react-native';
 import styles from './stylesCart';
+import { cartReducer, initialState } from "./useReducerShopping.js"
+import { useNavigation } from '@react-navigation/native';
 
-const ShoppingCart = ({ route, navigation }) => {
+const ShoppingCart = ({ route}) => {
+  const navigati = useNavigation()
   const { cart } = route.params;
-  const [cartItems, setCartItems] = useState(cart);
   const [paymentAmount, setPaymentAmount] = useState('');
 
+  // Usamos useReducer con el reducer y el estado inicial
+  const [state, dispatch] = useReducer(cartReducer, { ...initialState, cartItems: cart });
+
+  // Calculo del total al inicializar
+  //Uso del useEffect
+  useEffect(() => {
+    dispatch({ type: 'TOTAL_VENTA' });
+  }, [state.cartItems]);//El array de dependecia se ejecutara siempre que state.cartItms cmbie
+
+  //Se llama cada vez que el usuario elimine un porducto
   const handleRemoveItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+    dispatch({ type: 'ELIMINAR_ITEM', payload: id });
   };
 
+  //Se llama cada vez que la cantidad cambia
   const handleQuantityChange = (id, change) => {
-    setCartItems(
-      cartItems.map((item) => {
-        if (item.id === id) {
-          const newQuantity = item.quantity + change;
-          if (newQuantity < 1) {
-            Alert.alert('Error', 'La cantidad debe ser al menos 1');
-            return item;
-          }
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      }),
-    );
+    dispatch({ type: 'CAMBAIR_CANTIDAD', payload: { id, change } });
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => {
-      const priceToUse = item.discountedPrice ? item.discountedPrice : item.price;
-      return total + priceToUse * item.quantity;
-    }, 0);
+    dispatch({ type: 'TOTAL_VENTA' });
+    return state.total;
   };
 
   const handleCheckout = () => {
@@ -41,14 +40,14 @@ const ShoppingCart = ({ route, navigation }) => {
     if (isNaN(payment) || payment < total) {
       Alert.alert('Error', 'El monto ingresado no es suficiente para cubrir el total');
     } else {
-      Alert.alert('Éxito', 'Pago realizado con exito. ¿Desea ver sus compras?', [
+      Alert.alert('Exito', 'Pago realizado con exito. ¿Desea ver sus compras?', [
         {
           text: 'Si',
-          onPress: () => navigation.navigate('Purchases', { cartItems }),
+          onPress: () => navigati.navigate('Purchases', { cartItems: state.cartItems }),
         },
         {
           text: 'No',
-          style: 'cancelar',
+          style: 'cancel',
         },
       ]);
     }
@@ -58,8 +57,8 @@ const ShoppingCart = ({ route, navigation }) => {
     <View style={styles.container}>
       <Text style={styles.header}>Carrito de Compras</Text>
       <FlatList
-        data={cartItems}
-        keyExtractor={(item) => item.id}
+        data={state.cartItems}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.productCard}>
             <Image source={item.image} style={styles.productImage} />
@@ -81,7 +80,7 @@ const ShoppingCart = ({ route, navigation }) => {
         )}
       />
       <View style={styles.totalContainer}>
-        <Text style={styles.totalText}>Total: ${calculateTotal().toFixed(2)}</Text>
+        <Text style={styles.totalText}>Total: ${state.total.toFixed(2)}</Text>
       </View>
       <View style={styles.paymentContainer}>
         <TextInput

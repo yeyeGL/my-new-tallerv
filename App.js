@@ -1,11 +1,14 @@
+import React from 'react';
 import { View } from'react-native';
 import Rutas from './src/routes/Rutas';
-
+import { CartProvider } from './src/context/CartContext';
 
 export default function App() {
   return (
-    <View style={{ flex: 1 }}>
-      <Rutas />
-    </View>
+    <CartProvider initialCart={[]}>
+      <View style={{ flex: 1 }}>
+        <Rutas />
+      </View>
+    </CartProvider>
   );
 }

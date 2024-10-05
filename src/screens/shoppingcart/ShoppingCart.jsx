@@ -1,29 +1,29 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Button, FlatList, Image, Alert, TextInput } from 'react-native';
 import styles from './stylesCart';
-import { cartReducer, initialState } from "./useReducerShopping.js"
+import { CartContext } from '../../context/CartContext';
 import { useNavigation } from '@react-navigation/native';
 
-const ShoppingCart = ({ route}) => {
-  const navigati = useNavigation()
+const ShoppingCart = ({ route }) => {
+  const navigation = useNavigation();
+  const { state, dispatch } = useContext(CartContext);
   const { cart } = route.params;
   const [paymentAmount, setPaymentAmount] = useState('');
 
-  // Usamos useReducer con el reducer y el estado inicial
-  const [state, dispatch] = useReducer(cartReducer, { ...initialState, cartItems: cart });
+  // Inicializar el carrito con los items pasados por la ruta
+  useEffect(() => {
+    dispatch({ type: 'SET_CART', payload: cart });
+  }, [cart]);
 
   // Calculo del total al inicializar
-  //Uso del useEffect
   useEffect(() => {
     dispatch({ type: 'TOTAL_VENTA' });
-  }, [state.cartItems]);//El array de dependecia se ejecutara siempre que state.cartItms cmbie
+  }, [state.cartItems]);
 
-  //Se llama cada vez que el usuario elimine un porducto
   const handleRemoveItem = (id) => {
     dispatch({ type: 'ELIMINAR_ITEM', payload: id });
   };
 
-  //Se llama cada vez que la cantidad cambia
   const handleQuantityChange = (id, change) => {
     dispatch({ type: 'CAMBAIR_CANTIDAD', payload: { id, change } });
   };
@@ -43,7 +43,7 @@ const ShoppingCart = ({ route}) => {
       Alert.alert('Exito', 'Pago realizado con exito. ¿Desea ver sus compras?', [
         {
           text: 'Si',
-          onPress: () => navigati.navigate('Purchases', { cartItems: state.cartItems }),
+          onPress: () => navigation.navigate('Purchases', { cartItems: state.cartItems }),
         },
         {
           text: 'No',

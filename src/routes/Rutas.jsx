@@ -12,7 +12,6 @@ import Offers from '../screens/offers/Offers';
 import Categories from '../screens/categories/Categories';
 import Favorites from '../screens/favorites/Favorites';
 import Purchases from '../screens/purchases/Purchases';
-import PaymentBranch from '../screens/paymentbranch/PaymentBranch';
 import UserProfile from '../screens/userprofile/UserProfile';
 
 const Stack = createNativeStackNavigator();
@@ -32,7 +31,6 @@ export default function Rutas() {
         <Stack.Screen name="Offers" component={Offers} />
         <Stack.Screen name="Favorites" component={Favorites} />
         <Stack.Screen name="Purchases" component={Purchases} />
-        <Stack.Screen name="PaymentBranch" component={PaymentBranch} />
         <Stack.Screen name="UserProfile" component={UserProfile} />
       </Stack.Navigator>
     </NavigationContainer>

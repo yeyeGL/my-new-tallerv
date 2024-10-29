@@ -1,15 +1,32 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
 import styles from './stylesHelpSupport';
+import firebase from '../../firebase/firebase'; 
 
 const HelpSupport = () => {
   const [requestType, setRequestType] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleSubmit = () => {
-    Alert.alert('Solicitud Enviada', 'Gracias por tu mensaje. Te responderemos pronto');
-    setRequestType('');
-    setDescription('');
+  const handleSubmit = async () => {
+    if (!requestType || !description) {
+      Alert.alert('Error', 'Por favor completa todos los campos.');
+      return;
+    }
+
+    try {
+      
+      await firebase.db.collection('helpsupport').add({
+        requestType,
+        description,
+        createdAt: new Date(),
+      });
+
+      Alert.alert('Solicitud Enviada', 'Gracias por tu mensajeTe responderemos pronto.');
+      setRequestType('');
+      setDescription('');
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema al enviar la solicitud: ' + error.message);
+    }
   };
 
   return (

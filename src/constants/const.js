@@ -168,6 +168,5 @@ export const products = [
  export const menuItems = [
     { name: 'Ofertas', screen: 'Offers' },
     { name: 'Categorías de artículos', screen: 'Categories' },
-    { name: 'Sucursal de pago', screen: 'PaymentBranch' },
     { name: 'Ayuda y Soporte', screen: 'HelpSupport' },
   ];

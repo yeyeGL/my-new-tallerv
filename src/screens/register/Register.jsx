@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './stylesRegister';
-import {departments} from '../../constants/const';
-import { firebaseContext } from '../../firebase';
+import { departments } from '../../constants/const';
+import firebase from '../../firebase/firebase'; 
 
 const Register = () => {
     const navigation = useNavigation();  
@@ -13,16 +13,8 @@ const Register = () => {
     const [birthdate, setBirthdate] = useState('');
     const [address, setAddress] = useState('');
     const [department, setDepartment] = useState('');
+    const [country, setCountry] = useState('Colombia');
     const [showDropdown, setShowDropdown] = useState(false);
-    const {firebase} = useContext(firebaseContext);
-   
-    useEffect(() => {
-        if(route.params?.email){
-            const {email} = route.params;
-            setEmail(email);
-            firebase.db.collection('register').onSnapshot(email);
-        }
-    }, [route.params]);
     
     const validateForm = () => {
         const today = new Date();
@@ -45,15 +37,33 @@ const Register = () => {
         return Object.values(isValid).every(Boolean);
     };
 
-    const handleRegister = () => {
+    //Basicamente lo que hice es poner la funcion del boton de enviar datos en este caso que es registrarse asincrona y guardar los estados  que empiezan en "" excepto country que solo es colombia
+    const handleRegister = async () => {
+        //Por aca  pasan las validaciones primero si no cumplen
         if (!validateForm()) {
             Alert.alert('Error', 'Por favor revisa todos los campos');
             return;
         }
 
-        Alert.alert('Registro', `Usuario: ${username}\nCorreo: ${email}\nContraseña: ${password}\nFecha de nacimiento: ${birthdate}\nDireccion: ${address}\nPais: Colombia\nDepartamento: ${department}`);
-
-        navigation.navigate('Login');
+        //Se crea automaticamente la coleccion al crear un usuario en este caso llamado "users" donde se comunica con el archivo firabase.js con la db
+        try {
+            //Guardamos los estamos y agregamos createAT hora de creacion
+            await firebase.db.collection('users').add({
+                username,
+                email,
+                password, 
+                birthdate,
+                address,
+                department,
+                country,
+                createdAt: new Date() 
+            });
+            // Y eso es todo conclusion puedes basarte en este ejemplo guardar los estados de cada screen en la db de firabase.js en cuando le de al boton de cada funcionalidad besos
+            Alert.alert('Registro exitoso', 'Usuario registrado correctamente');
+            navigation.navigate('Login');
+        } catch (error) {
+            Alert.alert('Error', 'Hubo un problema al registrar el usuario: ' + error.message);
+        }
     };
 
     return (
@@ -100,7 +110,7 @@ const Register = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Pais (solo 'Colombia')"
-                value="Colombia"
+                value={country}
                 editable={false}
             />
 

@@ -9,13 +9,12 @@ const ShoppingCart = ({ route }) => {
   const { state, dispatch } = useContext(CartContext);
   const { cart } = route.params;
   const [paymentAmount, setPaymentAmount] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('');
 
-  // Inicializar el carrito con los items pasados por la ruta
   useEffect(() => {
     dispatch({ type: 'SET_CART', payload: cart });
   }, [cart]);
 
-  // Calculo del total al inicializar
   useEffect(() => {
     dispatch({ type: 'TOTAL_VENTA' });
   }, [state.cartItems]);
@@ -35,12 +34,12 @@ const ShoppingCart = ({ route }) => {
 
   const handleCheckout = () => {
     const total = calculateTotal();
-    const payment = parseFloat(paymentAmount);
+    const payment = paymentMethod === 'Monto' ? parseFloat(paymentAmount) : total; 
 
-    if (isNaN(payment) || payment < total) {
+    if (paymentMethod === 'Monto' && (isNaN(payment) || payment < total)) {
       Alert.alert('Error', 'El monto ingresado no es suficiente para cubrir el total');
     } else {
-      Alert.alert('Exito', 'Pago realizado con exito. ¿Desea ver sus compras?', [
+      Alert.alert('Exito', `Pago realizado con exito mediante ${paymentMethod}. ¿Desea ver sus compras?`, [
         {
           text: 'Si',
           onPress: () => navigation.navigate('Purchases', { cartItems: state.cartItems }),
@@ -83,14 +82,23 @@ const ShoppingCart = ({ route }) => {
         <Text style={styles.totalText}>Total: ${state.total.toFixed(2)}</Text>
       </View>
       <View style={styles.paymentContainer}>
-        <TextInput
-          style={styles.paymentInput}
-          placeholder="Ingrese monto para pagar"
-          keyboardType="numeric"
-          value={paymentAmount}
-          onChangeText={setPaymentAmount}
-        />
-        <Button title="Proceder al Pago" onPress={handleCheckout} color={"#6200EE"} />
+        <Text style={styles.paymentMethodTitle}>Seleccione un metodo de pago:</Text>
+        <View >
+          <Button title="Monto" onPress={() => setPaymentMethod('Monto')} color={paymentMethod === 'Monto' ? '#6200EE' : '#888'} />
+          <Button title="PSE" onPress={() => setPaymentMethod('PSE')} color={paymentMethod === 'PSE' ? '#6200EE' : '#888'} />
+          <Button title="Tarjeta de credito" onPress={() => setPaymentMethod('Tarjeta de credito')} color={paymentMethod === 'Tarjeta de credito' ? '#6200EE' : '#888'} />
+          <Button title="Efecty" onPress={() => setPaymentMethod('Efecty')} color={paymentMethod === 'Efecty' ? '#6200EE' : '#888'} />
+        </View>
+        {paymentMethod === 'Monto' && (
+          <TextInput
+            style={styles.paymentInput}
+            placeholder="Ingrese monto para pagar"
+            keyboardType="numeric"
+            value={paymentAmount}
+            onChangeText={setPaymentAmount}
+          />
+        )}
+        <Button title="Proceder al Pago" onPress={handleCheckout} color={"#2700EE"} />
       </View>
     </View>
   );

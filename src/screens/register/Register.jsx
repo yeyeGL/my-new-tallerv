@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './stylesRegister';
 import {departments} from '../../constants/const';
+import { firebaseContext } from '../../firebase';
 
 const Register = () => {
     const navigation = useNavigation();  
@@ -13,7 +14,16 @@ const Register = () => {
     const [address, setAddress] = useState('');
     const [department, setDepartment] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
-
+    const {firebase} = useContext(firebaseContext);
+   
+    useEffect(() => {
+        if(route.params?.email){
+            const {email} = route.params;
+            setEmail(email);
+            firebase.db.collection('register').onSnapshot(email);
+        }
+    }, [route.params]);
+    
     const validateForm = () => {
         const today = new Date();
         const birthDate = new Date(birthdate);

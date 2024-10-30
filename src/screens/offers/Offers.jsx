@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import styles from '../components/stylesOffers';
-import { products } from './Home';
+import styles from './stylesOffers';
+import { products } from '../../constants/const';
 
 const Offers = () => {
   const navigation = useNavigation();
   const [discountedProducts, setDiscountedProducts] = useState([]);
 
+  // Otra implementacion del useefect
   useEffect(() => {
     const filteredProducts = products.filter(product => product.discountedPrice);
     setDiscountedProducts(filteredProducts);

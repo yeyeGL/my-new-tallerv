@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, Image, FlatList, Button } from 'react-native';
-import styles from '../components/stylesProductDetail';
+import styles from './stylesProductDetail';
+import { useNavigation } from '@react-navigation/native';
+import { products } from '../../constants/const';
 
-const ProductDetail = ({ route, navigation }) => {
-  const { products } = route.params;
+const ProductDetail = () => {
+  const navigation = useNavigation()
 
   const handleProductSelect = (product) => {
     navigation.navigate('ProductOptions', { product });

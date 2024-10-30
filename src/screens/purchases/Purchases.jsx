@@ -1,13 +1,33 @@
-import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
-import styles from '../components/stylesPurchases';
+import React, { useEffect } from 'react';
+import { View, Text, FlatList, Image, Alert } from 'react-native';
+import styles from './stylesPurchases';
+import firebase from '../../firebase/firebase'; 
 
 const Purchases = ({ route }) => {
   const { cartItems } = route.params || {}; 
+
+  useEffect(() => {
+    if (cartItems && cartItems.length > 0) {
+      savePurchases();
+    }
+  }, [cartItems]);
+
+  const savePurchases = async () => {
+    try {
+      await firebase.db.collection('purchases').add({
+        items: cartItems,
+        createdAt: new Date(),
+      });
+      Alert.alert('Exito', 'Las compras se guardaron completamente');
+    } catch (error) {
+      Alert.alert('Error', 'No se guardo correctamente ' + error.message);
+    }
+  };
+
   if (!cartItems) {
     return (
       <View style={styles.container}>
-        <Text>No items in the cart</Text>
+        <Text>Sin items en el carrito</Text>
       </View>
     );
   }
@@ -37,6 +57,5 @@ const Purchases = ({ route }) => {
     </View>
   );
 };
-
 
 export default Purchases;

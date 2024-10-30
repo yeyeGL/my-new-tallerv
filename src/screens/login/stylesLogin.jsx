@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#333',
     marginBottom: 10,
-    textAlign: 'center', 
+    textAlign: 'center',
   },
   input: {
     width: '80%', 

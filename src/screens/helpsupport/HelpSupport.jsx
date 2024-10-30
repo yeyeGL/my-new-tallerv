@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
-import styles from '../components/stylesHelpSupport';
+import styles from './stylesHelpSupport';
+import firebase from '../../firebase/firebase'; 
 
 const HelpSupport = () => {
   const [requestType, setRequestType] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleSubmit = () => {
-    Alert.alert('Solicitud Enviada', 'Gracias por tu mensaje. Te responderemos pronto');
-    setRequestType('');
-    setDescription('');
+  const handleSubmit = async () => {
+    if (!requestType || !description) {
+      Alert.alert('Error', 'Por favor completa todos los campos.');
+      return;
+    }
+
+    try {
+      
+      await firebase.db.collection('helpsupport').add({
+        requestType,
+        description,
+        createdAt: new Date(),
+      });
+
+      Alert.alert('Solicitud Enviada', 'Gracias por tu mensajeTe responderemos pronto.');
+      setRequestType('');
+      setDescription('');
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema al enviar la solicitud: ' + error.message);
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ayuda y Soporte</Text>
 
-      <Text style={styles.label}>Tipo de Solicitud:</Text>
+      <Text style={styles.label}>Tipo de Solicitud : </Text>
       <View style={styles.requestTypeContainer}>
         <Button
           title="Queja"
@@ -35,14 +52,14 @@ const HelpSupport = () => {
         />
       </View>
 
-      <Text style={styles.label}>Descripción del Problema:</Text>
+      <Text style={styles.label}>Descripcion del problema : </Text>
       <TextInput
         style={styles.textInput}
         multiline
         numberOfLines={4}
         value={description}
         onChangeText={setDescription}
-        placeholder="Describe tu problema aquí..."
+        placeholder="Describe la causa del problema aqui......."
       />
 
       <Button title="Enviar" onPress={handleSubmit} color="#6200EE" />

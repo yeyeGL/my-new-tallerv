@@ -1,28 +1,39 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, Image, Alert } from 'react-native';
+import { View, Text, TextInput, Button, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../components/stylesOptions';
+import styles from './stylesOptions';
+import firebase from '../../firebase/firebase'; 
 
 const ProductOptions = ({ route }) => {
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]);
   const [rating, setRating] = useState(null);
 
   const { product } = route.params;
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (!rating) {
-      Alert.alert('Error', 'Debes seleccionar una calificación');
+      Alert.alert('Error', 'Debes seleccionar una calificacion');
       return;
     }
     if (rating < 1 || rating > 5) {
-      Alert.alert('Error', 'La calificacin debe ser entre 1 y 5');
+      Alert.alert('Error', 'La calificacion debe ser entre 1 y 5');
       return;
     }
-    setComments([...comments, { rating, comment }]);
-    Alert.alert('Comentario agregado', 'Tu comentario ha sido agregado');
-    setComment('');
-    setRating(null);
+
+    try {
+      await firebase.db.collection('comments').add({
+        productId: product.id, 
+        comment,
+        rating,
+        createdAt: new Date(),
+      });
+
+      Alert.alert('Comentario Agregado', 'Gracias por tu comentario.');
+      setComment('');
+      setRating(null);
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema al agregar el comentario: ' + error.message);
+    }
   };
 
   return (
@@ -53,17 +64,6 @@ const ProductOptions = ({ route }) => {
         ))}
       </View>
       <Button title="Agregar comentario" onPress={handleAddComment} color="#6200EE" />
-
-      <FlatList
-        data={comments}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.comment}>
-            <Text style={styles.commentText}>Rating: {item.rating} estrellas</Text>
-            <Text style={styles.commentText}>{item.comment}</Text>
-          </View>
-        )}
-      />
     </View>
   );
 };

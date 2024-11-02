@@ -94,29 +94,7 @@ const ShoppingCart = ({ route }) => {
         <Text style={styles.totalText}>Total: ${state.total.toFixed(2)}</Text>
       </View>
       <View style={styles.paymentContainer}>
-        <Text style={styles.paymentMethodTitle}>Seleccione un metodo de pago:</Text>
-        <View>
-          <Button
-            title="Monto"
-            onPress={() => setPaymentMethod('Monto')}
-            color={paymentMethod === 'Monto' ? '#6200EE' : '#888'}
-          />
-          <Button
-            title="PSE"
-            onPress={() => setPaymentMethod('PSE')}
-            color={paymentMethod === 'PSE' ? '#6200EE' : '#888'}
-          />
-          <Button
-            title="Tarjeta de credito"
-            onPress={() => setPaymentMethod('Tarjeta de credito')}
-            color={paymentMethod === 'Tarjeta de credito' ? '#6200EE' : '#888'}
-          />
-          <Button
-            title="Efecty"
-            onPress={() => setPaymentMethod('Efecty')}
-            color={paymentMethod === 'Efecty' ? '#6200EE' : '#888'}
-          />
-        </View>
+        
         {paymentMethod === 'Monto' && (
           <TextInput
             style={styles.paymentInput}

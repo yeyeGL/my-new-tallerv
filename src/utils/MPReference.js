@@ -3,13 +3,13 @@ import { ACCESS_TOKEN } from '../../config.json';
 export const handleIntregrationMP = async (cartItems) => {
   const preferencia = {
     items: cartItems.map((item) => ({
-      id: 1,
-      title: 'Dispositivo móvil',
-      description: 'Dispositivo móvil de Tienda e-commerce',
-      category_id: 'electronics',
-      quantity: 1,
-      currency_id: 'COP', // Asegúrate de usar la moneda correcta
-      unit_price: 3200,
+    "id": `${item.id}`, 
+      "title": `${item.name}`,
+      "description": `${item.description}`,
+      "category_id": `${item.categoria}`,
+      "quantity": item.quantity,
+      "currency_id": '$', // Asegúrate de usar la moneda correcta
+      "unit_price": item.discountedPrice ? item.discountedPrice : item.price,
     })),
     payer: {
       name: 'Lalo',
